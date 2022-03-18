@@ -12,6 +12,21 @@ class RoomProvider with ChangeNotifier {
     return roomsBox.values.elementAt(index);
   }
 
+  Room getRoomByUserId(int userId) {
+    return roomsBox.values.firstWhere(
+      (element) => element.creatorId == userId || element.userId == userId,
+      orElse: () {
+        return Room(
+          id: 0,
+          creatorId: 0,
+          userId: 0,
+          createAt: 0,
+          updateAt: 0,
+        );
+      },
+    );
+  }
+
   int getCountRoom() {
     return roomsBox.values.length;
   }

@@ -61,7 +61,7 @@ class _LoginLayoutState extends State<LoginLayout> {
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: getColorTheme(context).onSecondary,
+                    color: getColorTheme(context).secondary,
                   ),
                   child: TextField(
                     controller: usernameController,
@@ -103,7 +103,7 @@ class _LoginLayoutState extends State<LoginLayout> {
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: getColorTheme(context).onSecondary,
+                    color: getColorTheme(context).secondary,
                   ),
                   child: TextField(
                     controller: passwordController,
@@ -146,7 +146,7 @@ class _LoginLayoutState extends State<LoginLayout> {
                         children: [
                           Text(
                             'ورود به سامانه',
-                            style: getTextTheme(context).headline3,
+                            style: getTextTheme(context).headline3?.copyWith(color: Colors.white),
                             textAlign: TextAlign.center,
                             textDirection: TextDirection.rtl,
                           ),

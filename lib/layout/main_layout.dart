@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:ichat/page/contacts_page.dart';
 import 'package:ichat/page/search_page.dart';
 import 'package:ichat/page/setting_page.dart';
 import 'package:ichat/server/server_socket.dart';
+import 'package:ichat/widget/down_menu/down_menu_button_widget.dart';
 
 import '../data.dart';
-import '../page/groups_page.dart';
-import '../widget/menu/menu_widget.dart';
 import '../page/rooms_page.dart';
-import '../styles/theme_data.dart';
+import '../widget/down_menu/down_menu_widget.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({Key? key}) : super(key: key);
@@ -30,17 +30,17 @@ class _MainLayoutState extends State<MainLayout> with TickerProviderStateMixin {
       ),
     ),
     PageData(
-      icon: Icons.group,
-      active: false,
-      widget: const GroupsPage(
-        title: "کانال و گروه ها",
-      ),
-    ),
-    PageData(
       icon: Icons.search,
       active: false,
       widget: const SearchPage(
         title: "جستجو",
+      ),
+    ),
+    PageData(
+      icon: Icons.group,
+      active: false,
+      widget: const ContactsPage(
+        title: "مخاطبین",
       ),
     ),
     PageData(
@@ -72,46 +72,57 @@ class _MainLayoutState extends State<MainLayout> with TickerProviderStateMixin {
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        top: false,
-        bottom: false,
-        child: SafeArea(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              //! Page
-              PageView.builder(
-                controller: pageController,
-                itemCount: pageData.length,
-                itemBuilder: itemPage,
-                onPageChanged: onPageChanged,
-              ),
-              //! Menu
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: MenuWidget(
-                  height: 70,
-                  backgroundColor: getColorTheme(context).primary,
-                  items: pageData,
-                  onTaps: [
-                    () {
-                      onPageChanged(0);
-                    },
-                    () {
-                      onPageChanged(1);
-                    },
-                    () {
-                      onPageChanged(2);
-                    },
-                    () {
-                      onPageChanged(3);
-                    },
-                  ],
-                ),
-              ),
-            ],
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          //! Page
+          PageView.builder(
+            controller: pageController,
+            itemCount: pageData.length,
+            itemBuilder: itemPage,
+            onPageChanged: onPageChanged,
           ),
-        ),
+          //! Menu
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: DownMenuWidget(
+              item: [
+                DownMenuButtonWidget(
+                  width: getSizeScreenSafe(context).width / pageData.length,
+                  icon: pageData[0].icon,
+                  isActive: pageData[0].active,
+                  onTap: () {
+                    onPageChanged(0);
+                  },
+                ),
+                DownMenuButtonWidget(
+                  width: getSizeScreenSafe(context).width / pageData.length,
+                  icon: pageData[1].icon,
+                  isActive: pageData[1].active,
+                  onTap: () {
+                    onPageChanged(1);
+                  },
+                ),
+                DownMenuButtonWidget(
+                  width: getSizeScreenSafe(context).width / pageData.length,
+                  icon: pageData[2].icon,
+                  isActive: pageData[2].active,
+                  onTap: () {
+                    onPageChanged(2);
+                  },
+                ),
+                DownMenuButtonWidget(
+                  width: getSizeScreenSafe(context).width / pageData.length,
+                  icon: pageData[3].icon,
+                  isActive: pageData[3].active,
+                  onTap: () {
+                    onPageChanged(3);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

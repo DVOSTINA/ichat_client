@@ -1,46 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:ichat/styles/theme_data.dart';
 
-import '../../styles/theme_data.dart';
-
-class MenuItemWidget extends StatelessWidget {
-  const MenuItemWidget({
+class DownMenuButtonWidget extends StatelessWidget {
+  const DownMenuButtonWidget({
     Key? key,
     required this.icon,
-    this.size = 24,
-    required this.active,
     required this.onTap,
+    required this.isActive,
     required this.width,
   }) : super(key: key);
 
   final IconData icon;
-  final double size;
-  final bool active;
-  final Function() onTap;
-
+  final void Function() onTap;
+  final bool isActive;
   final double width;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onTap,
       child: Container(
         width: width,
-        height: 50,
+        height: 60,
         decoration: BoxDecoration(
+          color: Colors.transparent,
           border: Border(
             bottom: BorderSide(
-              width: 3,
+              width: isActive ? 3 : 0,
               color: getColorTheme(context).surface,
-              style: active ? BorderStyle.solid : BorderStyle.none,
+              style: isActive ? BorderStyle.solid : BorderStyle.none,
             ),
           ),
         ),
         child: Icon(
           icon,
-          size: active ? size + 2 : size - 2,
-          color: active ? getColorTheme(context).surface : getColorTheme(context).onSurface,
+          color: isActive ? getColorTheme(context).surface : getColorTheme(context).onSurface,
         ),
       ),
-      onTap: onTap,
     );
   }
 }

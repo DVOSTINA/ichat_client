@@ -5,26 +5,26 @@ import 'theme_data.dart';
 const TextTheme themeTextLight = TextTheme(
   headline1: TextStyle(
     color: textDarkColor,
-    fontSize: 16,
+    fontSize: 20,
   ),
   headline2: TextStyle(
-    color: textLightColor,
+    color: textDarkColor,
     fontSize: 16,
   ),
   headline3: TextStyle(
-    color: textLightColor,
-    fontSize: 16,
+    color: textDarkColor,
+    fontSize: 14,
   ),
   headline4: TextStyle(
-    color: textLightColor,
-    fontSize: 13,
+    color: textDarkColor,
+    fontSize: 14,
   ),
   bodyText1: TextStyle(
     color: textDarkColor,
-    fontSize: 13,
+    fontSize: 14,
   ),
   bodyText2: TextStyle(
-    color: textLightColor,
-    fontSize: 13,
+    color: textDarkColor,
+    fontSize: 14,
   ),
 );

@@ -5,19 +5,18 @@ import 'theme_text_dark.dart';
 
 ThemeData themeDark = ThemeData(
   brightness: Brightness.dark,
-  scaffoldBackgroundColor: firstColorDark,
+  scaffoldBackgroundColor: secondColorDark,
   dividerColor: secondColorDark,
   colorScheme: const ColorScheme.dark(
     primary: firstColorDark,
     secondary: secondColorDark,
     onPrimary: thirdColorDark,
     onSecondary: fourthColorDark,
-    secondaryContainer: fifthColorDark,
-    primaryContainer: secondColorDark,
+    primaryContainer: Colors.white,
+    secondaryContainer: Colors.black,
     surface: activeColorDark,
     onSurface: inActiveColorDark,
-    tertiary: Colors.black,
-    onTertiary: Colors.white,
+    tertiary: onlineColorLight,
   ),
   fontFamily: 'Vazir',
   textTheme: themeTextDark,

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ichat/provider/config_provider.dart';
 import 'package:ichat/styles/theme_data.dart';
-import 'package:provider/provider.dart';
 
 import '../data.dart';
-import '../widget/header_widget.dart';
 
 class GroupsPage extends StatefulWidget {
   const GroupsPage({
@@ -26,13 +23,13 @@ class _HistoryPageState extends State<GroupsPage> {
     return Column(
       children: [
         //! Header
-        HeaderWidget(
-          title: widget.title,
-          status: "درحال اتصال",
-          icon: Icons.wifi_rounded,
-          showStatus: !context.watch<ConfigProvider>().getSocketStatus(),
-          onConnect: () {},
-        ),
+        // NotifyHeaderWidget(
+        //   title: widget.title,
+        //   status: "درحال اتصال",
+        //   icon: Icons.wifi_rounded,
+        //   showStatus: !context.watch<ConfigProvider>().getSocketStatus(),
+        //   onConnect: () {},
+        // ),
         //! History
         ScrollConfiguration(
           behavior: CustomScrollBehavior(),

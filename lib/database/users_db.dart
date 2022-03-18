@@ -13,6 +13,7 @@ class User extends HiveObject {
     required this.bio,
     required this.grade,
     required this.major,
+    required this.lastNotify,
     required this.onlineAt,
   });
 
@@ -33,6 +34,8 @@ class User extends HiveObject {
   @HiveField(7)
   late String major;
   @HiveField(8)
+  late int lastNotify;
+  @HiveField(9)
   late int onlineAt;
 
   String getFullName() {
@@ -42,13 +45,14 @@ class User extends HiveObject {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
-      firstName: json['firstname'].toString(),
-      lastName: json['lastname'].toString(),
-      username: json['username'].toString(),
-      profile: json['profile'].toString(),
-      bio: json['bio'].toString(),
-      grade: json['grade'].toString(),
-      major: json['major'].toString(),
+      firstName: json['firstname'],
+      lastName: json['lastname'],
+      username: json['username'],
+      profile: json['profile'] ?? '',
+      bio: json['bio'] ?? '',
+      grade: json['grade'],
+      major: json['major'],
+      lastNotify: json['lastNotify'],
       onlineAt: json['online_at'],
     );
   }

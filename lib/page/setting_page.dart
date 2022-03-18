@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:ichat/data/info.dart';
 import 'package:ichat/layout/login_layout.dart';
 import 'package:ichat/layout/profile_layout.dart';
+import 'package:ichat/widget/top_menu/top_menu_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../data.dart';
-import '../widget/header_widget.dart';
 import '../provider/config_provider.dart';
 import '../styles/theme_data.dart';
 
@@ -37,76 +37,76 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //! Header
-        HeaderWidget(
+        //! Top Menu
+        TopMenuWidget(
           title: widget.title,
-          status: "درحال اتصال",
-          icon: Icons.wifi_rounded,
-          showStatus: !context.watch<ConfigProvider>().getSocketStatus(),
         ),
         //! Setting Item
-        Container(
-          padding: const EdgeInsets.all(5),
-          child: Wrap(
-            children: [
-              SettingItem(
-                text: "پروفایل",
-                icon: Icons.person,
-                backgroundColor: getColorTheme(context).secondary,
-                onTap: () {
-                  Navigator.pushNamed(context, ProfileLayout.pageId);
-                },
-              ),
-              SettingItem(
-                text: "حالت شب",
-                icon: Icons.light,
-                backgroundColor: getColorTheme(context).secondary,
-                onTap: () {
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return DialogCheck(
-                        title: "اخطار",
-                        text: "آیا میخواهید حالت شب را تغییر دهید؟",
-                        onSuccess: () {
-                          context.read<ConfigProvider>().setTheme();
-                          Navigator.pop(context);
-                        },
-                        onCancel: () {
-                          Navigator.pop(context);
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-              SettingItem(
-                text: "خروج",
-                icon: Icons.exit_to_app,
-                backgroundColor: getColorTheme(context).secondary,
-                onTap: () {
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return DialogCheck(
-                        title: "اخطار",
-                        text: "آیا میخواهید از اکانت خود خارج شوید؟",
-                        onSuccess: () async {
-                          await deleteInfo();
-                          Navigator.pop(context);
-                          Navigator.pushReplacementNamed(context, LoginLayout.pageId);
-                        },
-                        onCancel: () {
-                          Navigator.pop(context);
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
+        Expanded(
+          child: Container(
+            width: getSizeScreenSafe(context).width,
+            padding: const EdgeInsets.all(5),
+            child: Wrap(
+              children: [
+                SettingItem(
+                  text: "پروفایل",
+                  icon: Icons.person,
+                  backgroundColor: getColorTheme(context).primary,
+                  onTap: () {
+                    Navigator.pushNamed(context, ProfileLayout.pageId);
+                  },
+                ),
+                SettingItem(
+                  text: "حالت شب",
+                  icon: Icons.light,
+                  backgroundColor: getColorTheme(context).primary,
+                  onTap: () {
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) {
+                        return DialogCheck(
+                          title: "اخطار",
+                          text: "آیا میخواهید حالت شب را تغییر دهید؟",
+                          onSuccess: () {
+                            context.read<ConfigProvider>().setTheme();
+                            Navigator.pop(context);
+                          },
+                          onCancel: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+                SettingItem(
+                  text: "خروج",
+                  icon: Icons.exit_to_app,
+                  backgroundColor: getColorTheme(context).primary,
+                  onTap: () {
+                    showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) {
+                        return DialogCheck(
+                          title: "اخطار",
+                          text: "آیا میخواهید از اکانت خود خارج شوید؟",
+                          onSuccess: () async {
+                            await deleteInfo();
+                            Navigator.pop(context);
+                            Navigator.pushReplacementNamed(context, LoginLayout.pageId);
+                          },
+                          onCancel: () {
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -168,12 +168,20 @@ class DialogCheck extends StatelessWidget {
                       height: 35,
                       decoration: BoxDecoration(
                         color: getColorTheme(context).surface,
+                        boxShadow: const [
+                          BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 10,
+                            spreadRadius: 0,
+                            color: Color.fromARGB(30, 0, 0, 0),
+                          ),
+                        ],
                         borderRadius: const BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Center(
                         child: Text(
                           "تایید",
-                          style: getTextTheme(context).headline4,
+                          style: getTextTheme(context).headline4?.copyWith(color: Colors.white),
                         ),
                       ),
                     ),
@@ -184,7 +192,15 @@ class DialogCheck extends StatelessWidget {
                       width: 100,
                       height: 35,
                       decoration: BoxDecoration(
-                        color: getColorTheme(context).onSecondary,
+                        color: getColorTheme(context).primary,
+                        boxShadow: const [
+                          BoxShadow(
+                            offset: Offset(0, 0),
+                            blurRadius: 10,
+                            spreadRadius: 0,
+                            color: Color.fromARGB(30, 0, 0, 0),
+                          ),
+                        ],
                         borderRadius: const BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Center(
@@ -229,13 +245,20 @@ class SettingItem extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: backgroundColor,
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(0, 0),
+              blurRadius: 5,
+              spreadRadius: 0,
+              color: Color.fromARGB(10, 0, 0, 0),
+            ),
+          ],
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: Column(
           children: [
             Icon(
               icon,
-              color: Colors.white,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 5),

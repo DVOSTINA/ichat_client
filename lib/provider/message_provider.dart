@@ -5,11 +5,11 @@ import '../database/boxes.dart';
 
 class MessageProvider with ChangeNotifier {
   Iterable<Message> getMessages(int roomId) {
-    return messagesBox.values.where((element) => element.roomId == roomId);
+    return messagesBox.values.where((element) => element.roomId == roomId).toList().reversed;
   }
 
   Message getLastMessages(int roomId) {
-    return messagesBox.values.firstWhere((element) => element.roomId == roomId, orElse: () {
+    return messagesBox.values.lastWhere((element) => element.roomId == roomId, orElse: () {
       return Message(
         id: 0,
         senderId: 0,

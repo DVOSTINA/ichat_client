@@ -9,24 +9,24 @@ const Color textDarkColor = Color(0xFF000000);
 const Color textLightColor = Color(0xFFFFFFFF);
 
 //! Dark Color
-const Color firstColorDark = Color(0xFF12121E);
-const Color secondColorDark = Color(0xff0C0B15);
-const Color thirdColorDark = Color(0xFF232633);
+const Color firstColorDark = Color(0xFF262626);
+const Color secondColorDark = Color(0xff181818);
+const Color thirdColorDark = Color(0xFF3B3B3B);
 const Color fourthColorDark = Color(0xFF3A3A3A);
 const Color fifthColorDark = Color(0xFF4B4B4B);
-const Color onlineColorDark = Color(0xFF2e94e5);
-const Color activeColorDark = Color(0xff5653E6);
-const Color inActiveColorDark = Color(0xFF7E7DA8);
+const Color onlineColorDark = Color(0xFF3C95E3);
+const Color activeColorDark = Color(0xff3C95E3);
+const Color inActiveColorDark = Color(0xFF8A8A8A);
 
 //! Light Color
-const Color firstColorLight = Color(0xFFFFFFFF);
-const Color secondColorLight = Color(0xFFF7F7F7);
-const Color thirdColorLight = Color(0xFF0CCBFF);
-const Color fourthColorLight = Color(0xFF0975F3);
+const Color firstColorLight = Color(0xFFF5F5F5);
+const Color secondColorLight = Color(0xFFEBEBEB);
+const Color thirdColorLight = Color(0xFFFFFFFF);
+const Color fourthColorLight = Color(0xFF979797);
 const Color fifthColorLight = Color(0xFF112027);
-const Color onlineColorLight = Color(0xFF2e94e5);
-const Color activeColorLight = Color(0xFF286dfb);
-const Color inActiveColorLight = Color(0xFFD4D1DC);
+const Color onlineColorLight = Color(0xff3C95E3);
+const Color activeColorLight = Color(0xff3C95E3);
+const Color inActiveColorLight = Color(0xFF8A8A8A);
 
 ColorScheme getColorTheme(BuildContext context) {
   return Theme.of(context).colorScheme;

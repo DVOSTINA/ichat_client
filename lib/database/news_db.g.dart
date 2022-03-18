@@ -1,59 +1,53 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'users_db.dart';
+part of 'news_db.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UserAdapter extends TypeAdapter<User> {
+class NewsAdapter extends TypeAdapter<News> {
   @override
-  final int typeId = 0;
+  final int typeId = 4;
 
   @override
-  User read(BinaryReader reader) {
+  News read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return User(
+    return News(
       id: fields[0] as int,
-      firstName: fields[1] as String,
-      lastName: fields[2] as String,
-      username: fields[3] as String,
-      profile: fields[4] as String,
-      bio: fields[5] as String,
-      grade: fields[6] as String,
-      major: fields[7] as String,
-      lastNotify: fields[8] as int,
-      onlineAt: fields[9] as int,
+      senderId: fields[1] as int,
+      file: fields[3] as String,
+      text: fields[2] as String,
+      removed: fields[4] as bool,
+      edit: fields[5] as bool,
+      createAt: fields[6] as int,
+      updateAt: fields[7] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, User obj) {
+  void write(BinaryWriter writer, News obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.firstName)
+      ..write(obj.senderId)
       ..writeByte(2)
-      ..write(obj.lastName)
+      ..write(obj.text)
       ..writeByte(3)
-      ..write(obj.username)
+      ..write(obj.file)
       ..writeByte(4)
-      ..write(obj.profile)
+      ..write(obj.removed)
       ..writeByte(5)
-      ..write(obj.bio)
+      ..write(obj.edit)
       ..writeByte(6)
-      ..write(obj.grade)
+      ..write(obj.createAt)
       ..writeByte(7)
-      ..write(obj.major)
-      ..writeByte(8)
-      ..write(obj.lastNotify)
-      ..writeByte(9)
-      ..write(obj.onlineAt);
+      ..write(obj.updateAt);
   }
 
   @override
@@ -62,7 +56,7 @@ class UserAdapter extends TypeAdapter<User> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserAdapter &&
+      other is NewsAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

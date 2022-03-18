@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ichat/provider/config_provider.dart';
 import 'package:ichat/styles/theme_data.dart';
-import 'package:provider/provider.dart';
-import '../widget/header_widget.dart';
+import '../widget/top_menu/top_menu_widget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({
@@ -21,20 +19,27 @@ class _SearchState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //! Header
-        HeaderWidget(
+        //! Top Menu
+        TopMenuWidget(
           title: widget.title,
-          status: "درحال اتصال",
-          icon: Icons.wifi_rounded,
-          showStatus: !context.watch<ConfigProvider>().getSocketStatus(),
-          onConnect: () {},
         ),
         //! History
-        Container(
-          margin: const EdgeInsets.all(20),
-          child: Text(
-            "این بخش هنوز ساخته نشده است",
-            style: getTextTheme(context).headline1,
+        Expanded(
+          child: Container(
+            color: getColorTheme(context).secondary,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Center(
+                  child: Text(
+                    "این بخش هنوز ساخته نشده است",
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: getTextTheme(context).headline3,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],

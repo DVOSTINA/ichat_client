@@ -35,10 +35,10 @@ class ProfileWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: darkBlueColorLight.withOpacity(0.1),
+          color: getColorTheme(context).onPrimary,
         ),
         clipBehavior: Clip.antiAlias,
-        margin: const EdgeInsets.all(5),
+        margin: EdgeInsets.all(isOnline ? 5 : 0),
         child: ExtendedImage.network(
           profileUrl,
           fit: BoxFit.cover,

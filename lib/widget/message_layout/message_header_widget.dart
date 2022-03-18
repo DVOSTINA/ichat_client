@@ -11,7 +11,7 @@ class MessageHeaderWidget extends StatelessWidget {
     required this.title,
     required this.description,
     required this.profile,
-    required this.onMenu,
+    required this.onProfile,
     required this.onBack,
     required this.isUser,
     required this.isOnline,
@@ -22,7 +22,7 @@ class MessageHeaderWidget extends StatelessWidget {
   final String description;
   final String profile;
 
-  final Function() onMenu;
+  final Function() onProfile;
   final Function() onBack;
 
   final bool isUser;
@@ -32,10 +32,23 @@ class MessageHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: getSizeScreenSafe(context).width,
-      height: 70,
-      padding: const EdgeInsets.all(10),
+      height: 80 + getSizeSafe(context).top,
+      padding: EdgeInsets.only(
+        left: 10,
+        right: 10,
+        bottom: 10,
+        top: 10 + getSizeSafe(context).top,
+      ),
       decoration: BoxDecoration(
-        color: getColorTheme(context).secondary,
+        color: getColorTheme(context).primary,
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(0, 0),
+            blurRadius: 5,
+            spreadRadius: 0,
+            color: Color.fromARGB(10, 0, 0, 0),
+          ),
+        ],
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
       ),
       child: Row(
@@ -50,7 +63,6 @@ class MessageHeaderWidget extends StatelessWidget {
               child: const Center(
                 child: Icon(
                   Icons.arrow_back,
-                  color: Colors.white,
                 ),
               ),
             ),
@@ -72,11 +84,11 @@ class MessageHeaderWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.right,
                         textDirection: TextDirection.rtl,
-                        style: getTextTheme(context).headline4?.copyWith(fontSize: 15),
+                        style: getTextTheme(context).headline1?.copyWith(fontSize: 15),
                       ),
                       Visibility(
                         visible: description.isNotEmpty,
-                        child: const Spacer(),
+                        child: const SizedBox(height: 5),
                       ),
                       //! Description
                       Visibility(
@@ -88,7 +100,7 @@ class MessageHeaderWidget extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.right,
                             textDirection: TextDirection.rtl,
-                            style: getTextTheme(context).headline4,
+                            style: getTextTheme(context).headline3,
                           ),
                         ),
                       ),
@@ -96,10 +108,14 @@ class MessageHeaderWidget extends StatelessWidget {
                   ),
                 ),
                 //! Profile
-                ProfileWidget(
-                  size: 50,
-                  isOnline: true,
-                  profileUrl: profile,
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: ProfileWidget(
+                    size: 60,
+                    isOnline: true,
+                    profileUrl: profile,
+                    onlineColor: getColorTheme(context).tertiary,
+                  ),
                 ),
               ],
             ),

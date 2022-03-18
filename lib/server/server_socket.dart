@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ichat/database/boxes.dart';
 import 'package:ichat/database/rooms_db.dart';
 import 'package:ichat/database/users_db.dart';
 import 'package:ichat/provider/config_provider.dart';
+import 'package:ichat/provider/news_provider.dart';
 import 'package:ichat/provider/room_provider.dart';
 import 'package:ichat/provider/user_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -12,6 +12,7 @@ import '../data.dart';
 import '../data/info.dart';
 import '../data/server.dart';
 import '../database/messages_db.dart';
+import '../database/news_db.dart';
 import '../provider/message_provider.dart';
 import 'server_api.dart';
 
@@ -37,23 +38,30 @@ class SocketManager {
     socket.onConnect((data) async {
       debugPrint("onConnect");
 
+      await context.read<RoomProvider>().clearRoom();
+      await context.read<NewsProvider>().clearNews();
+      await context.read<MessageProvider>().clearMessages();
+      await context.read<UserProvider>().clearUsers();
+
       //! Get Users
       CustomResponse responseGetUsers = await serverApi.getUsers();
-      await context.read<UserProvider>().clearUsers();
       for (var user in responseGetUsers.responsedata["data"]["users"]) {
-        await usersBox.add(User.fromJson(user));
+        await context.read<UserProvider>().addUser(User.fromJson(user));
       }
 
       //! Get Room And limit 10 Messages
       CustomResponse responseGetRooms = await serverApi.getRoom();
-      await context.read<RoomProvider>().clearRoom();
-      await context.read<MessageProvider>().clearMessages();
-      await messagesBox.clear();
       for (var room in responseGetRooms.responsedata["data"]["rooms"]) {
         for (var message in room["messages"]) {
           await context.read<MessageProvider>().addMessage(Message.fromJson(message));
         }
         await context.read<RoomProvider>().addRoom(Room.fromJson(room));
+      }
+
+      //! Get News
+      CustomResponse responseGetNews = await serverApi.getNews();
+      for (var news in responseGetNews.responsedata["data"]["news"]) {
+        await context.read<NewsProvider>().addNews(News.fromJson(news));
       }
 
       //! Set Online
@@ -139,7 +147,15 @@ class SocketManager {
     socket.on("seenUserMessage", (data) async {
       debugPrint("SeenUserMessage");
 
-      await context.read<MessageProvider>().setSeen(int.parse(data["messageId"].toString()));
+      // await context.read<MessageProvider>().setSeen(int.parse(data["messageId"].toString()));
+    });
+
+    socket.on("getNews", (data) async {
+      debugPrint("getNews");
+
+      News news = News.fromJson(data);
+
+      await context.read<NewsProvider>().addNews(news);
     });
   }
 }

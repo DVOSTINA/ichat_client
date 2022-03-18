@@ -7,7 +7,12 @@ class DatabaseName {
   static String users = "Users";
   static String groups = "Groups";
   static String rooms = "rooms";
+  static String news = "news";
   static String messages = "messages";
+}
+
+Size getSizeScreen(BuildContext context) {
+  return MediaQuery.of(context).size;
 }
 
 Size getSizeScreenSafe(BuildContext context) {

@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ichat/database/groups_db.dart';
 import 'package:ichat/database/messages_db.dart';
-import 'package:ichat/layout/message_group_layout.dart';
+import 'package:ichat/layout/notify_layout.dart';
+import 'package:ichat/layout/school_layout.dart';
+import 'package:ichat/provider/news_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'data.dart';
+import 'database/news_db.dart';
 import 'database/rooms_db.dart';
 import 'layout/error_layout.dart';
 import 'layout/login_layout.dart';
 import 'layout/main_layout.dart';
-import 'layout/contacts_layout.dart';
 import 'layout/loader_layout.dart';
 import 'database/users_db.dart';
-import 'layout/message_user_layout.dart';
+import 'layout/message_room_layout.dart';
 import 'layout/profile_layout.dart';
 import 'provider/group_provider.dart';
 import 'provider/message_provider.dart';
@@ -33,12 +35,14 @@ Future<void> hiveConfig() async {
   Hive.registerAdapter(GroupAdapter());
   Hive.registerAdapter(RoomAdapter());
   Hive.registerAdapter(MessageAdapter());
+  Hive.registerAdapter(NewsAdapter());
   //! Hive Open
   await Hive.openBox(DatabaseName.config);
   await Hive.openBox<User>(DatabaseName.users);
   await Hive.openBox<Room>(DatabaseName.rooms);
   await Hive.openBox<Group>(DatabaseName.groups);
   await Hive.openBox<Message>(DatabaseName.messages);
+  await Hive.openBox<News>(DatabaseName.news);
 }
 
 Future<void> main() async {
@@ -60,6 +64,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => GroupProvider()),
         ChangeNotifierProvider(create: (_) => MessageProvider()),
+        ChangeNotifierProvider(create: (_) => NewsProvider()),
       ],
       child: const MyApp(),
     ),
@@ -81,10 +86,10 @@ class MyApp extends StatelessWidget {
         LoginLayout.pageId: (context) => const LoginLayout(),
         ErrorLayout.pageId: (context) => const ErrorLayout(),
         MainLayout.pageId: (context) => const MainLayout(),
-        ContactLayout.pageId: (context) => const ContactLayout(),
+        NotifyLayout.pageId: (context) => const NotifyLayout(),
+        SchoolLayout.pageId: (context) => const SchoolLayout(),
         ProfileLayout.pageId: (context) => const ProfileLayout(),
-        MessageUserLayout.pageId: (context) => const MessageUserLayout(),
-        MessageGroupLayout.pageId: (context) => const MessageGroupLayout(),
+        MessageRoomLayout.pageId: (context) => const MessageRoomLayout(),
       },
     );
   }

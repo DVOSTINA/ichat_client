@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../styles/theme_data.dart';
 import 'profile_widget.dart';
 
-class ContactsItemWidget extends StatelessWidget {
-  const ContactsItemWidget({
+class RoomsItemWidget extends StatelessWidget {
+  const RoomsItemWidget({
     Key? key,
     required this.title,
-    this.bio = '',
+    this.lastMessage = '',
     this.profile = '',
     this.lastView = '',
     this.countMessage = 0,
@@ -16,7 +16,7 @@ class ContactsItemWidget extends StatelessWidget {
   }) : super(key: key);
 
   final String title;
-  final String bio;
+  final String lastMessage;
   final String profile;
   final String lastView;
   final int countMessage;
@@ -77,14 +77,14 @@ class ContactsItemWidget extends StatelessWidget {
                       style: getTextTheme(context).headline1?.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: bio.isEmpty ? 0 : 5,
+                      height: lastMessage.isEmpty ? 0 : 5,
                     ),
                     Visibility(
-                      visible: bio.isNotEmpty,
+                      visible: lastMessage.isNotEmpty,
                       child: Opacity(
                         opacity: 0.6,
                         child: Text(
-                          bio,
+                          lastMessage,
                           textAlign: TextAlign.right,
                           style: getTextTheme(context).bodyText1,
                         ),

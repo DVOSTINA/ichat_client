@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:ichat/data.dart';
-import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/server.dart';
-import '../../provider/config_provider.dart';
 import '../../styles/theme_data.dart';
 import 'message_item_tools_widget.dart';
 
@@ -83,14 +83,14 @@ class MessageItemWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: isSender! ? 5 : 0, right: isSender! ? 0 : 5),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: context.watch<ConfigProvider>().getDarkTheme() ? getColorTheme(context).onPrimary : getColorTheme(context).tertiary,
+                color: getColorTheme(context).onPrimary,
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
-                    offset: const Offset(2, 2),
-                    blurRadius: 2,
+                    offset: Offset(0, 0),
+                    blurRadius: 5,
                     spreadRadius: 0,
-                    color: Colors.black.withOpacity(0.1),
+                    color: Color.fromARGB(10, 0, 0, 0),
                   ),
                 ],
               ),
@@ -116,7 +116,7 @@ class MessageItemWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 5),
                             child: Icon(
                               isReceived! ? Icons.done_all_outlined : Icons.check,
-                              color: isSeen! ? getColorTheme(context).onSurface : getColorTheme(context).onTertiary,
+                              color: isSeen! ? getColorTheme(context).tertiary : getColorTheme(context).primaryContainer,
                               size: 15,
                             ),
                           ),
@@ -127,7 +127,7 @@ class MessageItemWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 5),
                             child: Icon(
                               Icons.edit_outlined,
-                              color: getColorTheme(context).onTertiary,
+                              color: getColorTheme(context).primaryContainer,
                               size: 15,
                             ),
                           ),
@@ -169,11 +169,15 @@ class MessageItemWidget extends StatelessWidget {
             ),
           ),
         ),
-        Text(
-          text,
-          textDirection: TextDirection.rtl,
+        Linkify(
+          text: text,
           textAlign: TextAlign.right,
-          style: getTextTheme(context).bodyText1,
+          textDirection: TextDirection.rtl,
+          onOpen: (link) async {
+            if (await canLaunch(link.url)) {
+              await launch(link.url);
+            }
+          },
         ),
       ],
     );

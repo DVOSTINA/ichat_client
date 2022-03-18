@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:ichat/database/messages_db.dart';
 import 'package:ichat/provider/message_provider.dart';
 import 'package:ichat/styles/theme_data.dart';
-import 'package:ichat/widget/contacts_item_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../data.dart';
@@ -11,9 +9,11 @@ import '../data/info.dart';
 import '../data/server.dart';
 import '../database/rooms_db.dart';
 import '../database/users_db.dart';
-import '../layout/message_user_layout.dart';
+import '../layout/message_room_layout.dart';
 import '../provider/room_provider.dart';
 import '../provider/user_provider.dart';
+import '../widget/rooms_item_widget.dart';
+import '../widget/top_menu/top_menu_widget.dart';
 
 class RoomsPage extends StatefulWidget {
   const RoomsPage({
@@ -24,10 +24,10 @@ class RoomsPage extends StatefulWidget {
   final String title;
 
   @override
-  _HistoryPageState createState() => _HistoryPageState();
+  _RoomsPageState createState() => _RoomsPageState();
 }
 
-class _HistoryPageState extends State<RoomsPage> {
+class _RoomsPageState extends State<RoomsPage> {
   late Iterable<Room> rooms;
 
   @override
@@ -36,12 +36,12 @@ class _HistoryPageState extends State<RoomsPage> {
 
     return Column(
       children: [
+        //! Top Menu
         TopMenuWidget(
           title: widget.title,
           notifyCount: 5,
-          onNotifyTap: () {},
-          onSchoolTap: () {},
         ),
+        //! Room List
         Expanded(
           child: Container(
             color: getColorTheme(context).secondary,
@@ -65,23 +65,21 @@ class _HistoryPageState extends State<RoomsPage> {
     Message lastMessage = context.watch<MessageProvider>().getLastMessages(room.id);
     int countNotSeen = context.watch<MessageProvider>().getCountNotSeen(room.id);
     //! Make Item
-    return ContactsItemWidget(
-      isUser: true,
+    return RoomsItemWidget(
       title: user.getFullName(),
-      text: lastMessage.file.isNotEmpty
+      lastMessage: lastMessage.file.isNotEmpty
           ? lastMessage.file.split('.')[1] == "png"
               ? "تصویر"
               : "فایل"
           : lastMessage.text,
-      isChannel: false,
       lastView: lastView(user.onlineAt)[0],
-      online: lastView(user.onlineAt)[1],
+      isOnline: lastView(user.onlineAt)[1],
       countMessage: countNotSeen,
-      profileUrl: getIpProfile + user.profile,
+      profile: getIpProfile + user.profile,
       onTap: () {
         Navigator.pushNamed(
           context,
-          MessageUserLayout.pageId,
+          MessageRoomLayout.pageId,
           arguments: {
             "roomId": room.id,
             "receiverId": user.id,
@@ -95,118 +93,4 @@ class _HistoryPageState extends State<RoomsPage> {
   void searchButton() {}
 
   void notifyButton() {}
-}
-
-class TopMenuWidget extends StatelessWidget {
-  const TopMenuWidget({
-    Key? key,
-    required this.title,
-    this.notifyCount = 0,
-    required this.onNotifyTap,
-    required this.onSchoolTap,
-  }) : super(key: key);
-
-  final String title;
-  final int notifyCount;
-  final void Function() onNotifyTap;
-  final void Function() onSchoolTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TopMenuButtonWidget(
-            icon: Icons.notifications_outlined,
-            count: notifyCount,
-            onTap: onNotifyTap,
-          ),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.rtl,
-            style: getTextTheme(context).headline1,
-          ),
-          TopMenuButtonWidget(
-            icon: Icons.school_outlined,
-            count: 0,
-            onTap: onSchoolTap,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class TopMenuButtonWidget extends StatelessWidget {
-  const TopMenuButtonWidget({
-    Key? key,
-    required this.icon,
-    required this.onTap,
-    required this.count,
-  }) : super(key: key);
-
-  final IconData icon;
-  final int count;
-  final void Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        width: 70,
-        height: 70,
-        child: Stack(
-          children: [
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                color: getColorTheme(context).onPrimary,
-                boxShadow: const [
-                  BoxShadow(
-                    offset: Offset(0, 0),
-                    blurRadius: 10,
-                    spreadRadius: 0,
-                    color: Color.fromARGB(150, 0, 0, 0),
-                  ),
-                ],
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                icon,
-                size: 30,
-              ),
-            ),
-            Visibility(
-              visible: count > 0,
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  width: 25,
-                  height: 25,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: getColorTheme(context).surface,
-                  ),
-                  child: Center(
-                    child: Text(
-                      count <= 9 ? count.toString() : "9+",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
